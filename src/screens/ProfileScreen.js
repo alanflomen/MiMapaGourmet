@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, TextInput, Alert, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Alert, Image, TouchableOpacity } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
 import * as ImagePicker from 'expo-image-picker';
-import { db } from '../firebase/config';
 import { useSelector, useDispatch } from 'react-redux';
 import { styles } from '../styles/style';
+import { auth } from '../firebase/config';
+import { cambiarEstado, cambiarEmail } from '../redux/slices/loginSlice';
 
-export default function ProfileScreen ()  {
+export default function ProfileScreen() {
     const dispatch = useDispatch();
     const [foto, setFoto] = useState("");
     const [nombre, setNombre] = useState("");
@@ -60,7 +61,6 @@ export default function ProfileScreen ()  {
             try {
                 //console.log(mailRedux);
                 const result = await db.getFirstAsync('SELECT * FROM usuario where email = ?', mailRedux);
-                //const result = await db.getFirstAsync('SELECT * FROM usuario where email = ?', "a@a.com"); //BORRAR!
                 //console.log("Usuario encontrado:", result);
                 if (result) {
                     setNombre(result.nombre || "");
@@ -114,7 +114,16 @@ export default function ProfileScreen ()  {
             foto !== fotoOriginal
         ) ? false : true; // true para deshabilitar, false para habilitar xq es un disabled
     };
-
+    const CerrarSesion = async () => {
+        try {
+            dispatch(cambiarEmail(''));
+            dispatch(cambiarEstado());
+            auth.signOut()
+        }
+        catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -165,7 +174,7 @@ export default function ProfileScreen ()  {
                 <TouchableOpacity style={styles.botonGuardar} onPress={guardarCambios} disabled={hayCambios()}>
                     <Text style={styles.botonGuardarText}>Guardar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.botonCerrarSesion} onPress={() => auth.signOut()}>
+                <TouchableOpacity style={styles.botonCerrarSesion} onPress={CerrarSesion}>
                     <Text style={styles.botonCerrarSesionText}>Cerrar sesión</Text>
                 </TouchableOpacity>
             </View>

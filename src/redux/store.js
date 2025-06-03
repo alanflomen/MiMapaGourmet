@@ -6,7 +6,7 @@ import platosReducer from './slices/platosSlice';
 import usuarioReducer from './slices/usuarioSlice';
 export const store = configureStore({
   reducer: {
-    //[authApi.reducerPath]: authApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
     logueado: logeadoReducer,
     platos: platosReducer,
     usuario: usuarioReducer,
