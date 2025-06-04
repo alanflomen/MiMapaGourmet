@@ -93,6 +93,97 @@ ubicación y categorías personalizadas.
 
 ---
 
+## 📦 Librerías utilizadas y su propósito
+
+Esta app utiliza una serie de librerías para cumplir con los requerimientos del proyecto y optimizar la experiencia de usuario.  
+A continuación, se detalla cada una y su función específica dentro del código:
+
+---
+
+### **Navegación y estructura de pantallas**
+
+- **@react-navigation/native**  
+  Maneja la navegación principal entre pantallas (Stacks, Tabs) de la app. Permite una experiencia fluida y desacoplada.
+  Implementa la barra de navegación inferior (BottomTabNavigator) con accesos rápidos a Home, Mapa, Stats y Perfil.
+  Permite crear pilas de navegación (StackNavigator)
+
+---
+
+### **Estado global y gestión de datos**
+
+- **redux**  
+  Provee el store centralizado de la app para manejar el estado global.
+- **@reduxjs/toolkit**  
+  Simplifica la creación de slices y reducers. Se usa para platos, categorías y usuario.
+- **react-redux**  
+  Conecta los componentes de React Native con el store de Redux para acceder y despachar acciones.
+
+---
+
+### **Firebase y almacenamiento en la nube**
+
+- **firebase**  
+  Utilizado para autenticación de usuarios (login/register), almacenamiento de datos de platos y categorías en Firestore.
+
+---
+
+### **Funcionalidades Expo (plataforma de desarrollo)**
+
+- **expo**  
+  Permite desarrollar, compilar y testear la app en dispositivos físicos/emuladores de forma sencilla.
+- **expo-font**  
+  Carga y gestiona fuentes personalizadas (Livvic-Regular y Bold) para un estilo visual consistente.
+- **expo-image-picker**  
+  Permite al usuario tomar una foto desde la cámara o elegir de la galería para asociar una imagen a un plato.
+- **expo-location**  
+  Obtiene la ubicación geográfica actual del usuario para registrar dónde se degustó cada plato.
+- **expo-sqlite**  
+  Permite crear y gestionar una base de datos SQLite local, que se usa para almacenar el perfil de usuario offline.
+- **expo-status-bar**  
+  Controla la apariencia de la barra de estado de Android/iOS para una UI integrada.
+
+---
+
+### **Interfaz de usuario avanzada**
+
+- **react-native-dropdown-picker**  
+  Dropdown moderno y customizable para seleccionar una o varias categorías al filtrar o registrar platos.
+- **react-native-svg**  
+  Permite gráficos SVG (por ejemplo, íconos vectoriales y gráficos en StatsScreen).
+- **react-native-chart-kit**  
+  Utilizado para mostrar gráficos y estadísticas visuales (cantidad de platos por categoría, puntajes, etc).
+
+---
+
+**¿Por qué se eligieron estas librerías?**
+
+- **Expo:** Simplifica mucho el workflow mobile, integración de cámara, galería, mapas, fonts y facilita el testing multiplataforma.
+- **Redux Toolkit:** Hace muy fácil y seguro manejar el estado global, la sincronización con Firebase y la consistencia de los datos.
+- **Firebase:** Provee autenticación segura y almacenamiento escalable en la nube, cumpliendo el requerimiento de backup y login/logout seguro.
+- **SQLite:** Requerido por el curso para simular datos offline/locales, en este caso solo se utiliza para el perfil de usuario.
+- **DropdownPicker, ChartKit:** Optimizan la UI y la experiencia de usuario haciéndola moderna, reactiva y visualmente atractiva.
+
+---
+
+### **¿Dónde se usan estas librerías?**
+
+- **Navegación:**  
+  `src/screens/LoginScreen.js /src/navigation/BottomTabNavigator.js`, `/src/navigation/StackNavigator.js`
+
+- **Redux:**  
+  `/src/redux/slices/`, `/src/redux/store.js`  y a lo largo del proyecto para los estados
+
+- **Firebase:**  
+  `/src/firebase/config.js`, `/src/services/platosService.js`, `/src/screens/LoginScreen.js`
+
+- **Expo y UI:**  
+  `/src/screens/AddPlatoScreen.js`, `/src/screens/EditPlatoScreen.js`, `/src/screens/ProfileScreen.js`, `/src/styles/style.js`
+
+- **Estadísticas:**  
+  `/src/screens/StatsScreen.js`
+
+---
+
 ## 🚀 Cómo instalar y correr la app
 
 1. **Clonar el repo y entrar al proyecto:**

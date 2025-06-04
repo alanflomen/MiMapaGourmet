@@ -53,7 +53,7 @@ const RegisterScreen = () => {
     return (
         <View style={styles.containerRegister}>
             <Text style={styles.title}>
-                ¡Bienvenid@!{"\n"}Complete todos los campos
+                ¡Bienvenid@!{"\n"}Completá todos los campos
             </Text>
 
             <TextInput

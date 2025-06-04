@@ -17,7 +17,7 @@ export default function StackNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
 
-      {user ? <Stack.Screen //cambiar esto por login TODO
+      {user ? <Stack.Screen
         name="Main"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
