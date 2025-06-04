@@ -1,0 +1,185 @@
+# MiMapaGourmet
+
+**MiMapaGourmet** es una app mobile hecha en React Native (con Expo) que te permite registrar, calificar y marcar en el mapa todos 
+los platos que vas probando en diferentes lugares. Guardá tu experiencia gastronómica con fotos, notas, puntaje,
+ubicación y categorías personalizadas.
+¡Ideal para foodies, viajeros y amantes del buen comer!
+---
+
+## 📱 Features principales
+
+- **Registro de platos:** Con foto (cámara o galería), nombre, descripción, precio, notas, puntaje y categorías.
+- **Mapa:** Todos tus platos aparecen geolocalizados con pines.
+- **Filtros avanzados:** Buscá por texto, favoritos y categorías (multi-selección).
+- **Lista cronológica:** Ordenada por fecha de creación.
+- **Pantalla de estadísticas:** Visualizá totales, promedios y favoritos.
+- **Perfil offline:** Gestión del usuario con SQLite (nombre, email, foto), incluso sin conexión.
+- **Autenticación y backup:** Login y registro con Firebase, todos los datos sincronizados en la nube.
+
+---
+
+## 🗂️ Estructura de carpetas
+
+/src
+    /screens # Todas las pantallas (HomeScreen, AddPlatoScreen, MapScreen, EditPlatoScreen, StatsScreen, ProfileScreen, LoginScreen, RegisterScreen)
+    /redux
+        /slices # Slices de Redux (platosSlice, categoriasSlice, loginSlice)
+        /store.js
+    /services # Acceso a Firebase, servicios de datos (platosService.js, firebase/config.js)
+    /utils # Funciones utilitarias
+    /styles # Archivo de estilos global (style.js)
+    /fonts # 
+    /images # Logo y recursos gráficos
+
+---
+
+## 🛠️ ¿Dónde está cada requerimiento en el código?
+
+- **Redux Toolkit:**  
+  - `/src/redux/slices/platosSlice.js` (maneja la lista de platos)  
+  - `/src/redux/slices/categoriasSlice.js` (categorías)  
+  - `/src/redux/slices/loginSlice.js` (usuario)  
+  - El store se define en `/src/redux/store.js`  
+  - Usos: ver en `HomeScreen.js`, `EditPlatoScreen.js`, `AddPlatoScreen.js`, etc.
+
+- **Firebase Firestore:**  
+  - Configuración: `/src/firebase/config.js`
+  - Alta, edición y borrado de platos: `/src/services/platosService.js`
+  - Autenticación: `/src/redux/authApi.js`
+  - Login/Register: `LoginScreen.js`, `RegisterScreen.js`
+
+- **SQLite:**  
+  - Solo se usa para **Perfil** (nombre, email, foto), porque pedia su uso en las rubicas.
+  - Creación de tabla: App.js
+  - Acceso: `ProfileScreen.js`
+  - El resto de los datos (platos, categorías) se cargan desde Firebase.
+
+- **Uso de cámara y galería:**  
+  - Para la foto del plato (en base64): `AddPlatoScreen.js`, `EditPlatoScreen.js`
+  - Para la foto del usuario (en base64): ProfileScreen.js
+  - Manejo de permisos con `expo-image-picker`.
+
+- ** Navegación:**
+    - Se aplica en varios lugares de diferentes maneras:
+        - Se puede usar el navigation.navigate desde el Login hacia el Register
+        - Luego se usan tabs para navegar dentro de la app
+        - Tambien se usa redux y el estado del usuario para determinar si mostrar el Login o el Main (las tabs)
+            De esta manera uno se asegura de que el usuario no puede volver para atras al Login o Register, desde el Main.
+
+
+- **Mapa y geolocalización:**  
+  - `MapScreen.js` muestra todos los platos como pines en un mapa.
+  - En `AddPlatoScreen.js` y `EditPlatoScreen.js` se obtiene la ubicación con `expo-location`. Se solicitan los permisos y sino 
+    son aceptados, se guarda la ubicación vacia.
+
+- **Filtros y búsqueda:**  
+  - Componentes en `HomeScreen.js` y `MapScreen.js`, con búsqueda en tiempo real, dropdown de categorías y toggle de favoritos.
+
+- **Validaciones y formularios:**  
+  - Validación de campos obligatorios en los modales de alta/edición (`AddPlatoScreen.js`, `EditPlatoScreen.js`).
+  - Uso de `DropDownPicker`, inputs controlados, mensajes de error amigables.
+  - Traducción de errores de Firebase en `/src/utils/traduccionesUtil.js`.
+
+- **Estadísticas y gráficos:**  
+  - `StatsScreen.js` muestra totales, promedios, favoritos y cantidad de platos por categoría.
+
+- **Estilo y fonts personalizadas:**  
+  - Todos los estilos: `/src/styles/style.js`
+  - Fonts importadas en `/assets/fonts`
+
+- **Soporte móvil completo:**  
+  - Todas las pantallas usan ScrollView, layout responsivo y accesibilidad.
+  - Modal de éxito en altas/ediciones, scroll automático al mostrar errores.
+
+---
+
+## 🚀 Cómo instalar y correr la app
+
+1. **Clonar el repo y entrar al proyecto:**
+    ```sh
+    git clone <tu-repo>
+    cd MiMapaGourmet
+    ```
+
+2. **Instalar dependencias:**
+    ```sh
+    npm install
+    ```
+
+3. **Asegurarse de tener la font Livvic-Regular y Livvic-Bold en `/assets/fonts`
+
+4. **Configurar credenciales de Firebase:**
+    - Editar `/src/firebase/config.js` con tu proyecto y claves.
+
+5. **Levantar la app:**
+    ```sh
+    npx expo start
+    ```
+
+6. **Para compilar el APK:**
+    ```sh
+    npx expo run:android
+    ```
+
+---
+
+## 📑 Requerimientos del proyecto y su cumplimiento
+
+| Requerimiento           | ¿Dónde está implementado?                |
+|-------------------------|------------------------------------------|
+| Listas                  | HomeScreen.js (FlatList de platos)       |
+| Modales                 | AddPlatoScreen.js, EditPlatoScreen.js    |
+| Varias pantallas        | `/src/screens/` (7+ screens)             |
+| Imágenes                | Camera/gallery (expo-image-picker)       |
+| Navegación entre Tabs   | BottomTabNavigator.js                    |
+| Redux                   | `/src/redux/slices/`, store.js           |
+| Firebase                | `/src/services/`, `/src/firebase/config` |
+| Login/Logout            | LoginScreen.js, PerfilScreen.js        |
+| Uso de la cámara        | AddPlatoScreen.js, EditPlatoScreen.js    |
+| Maps y localización     | MapScreen.js, AddPlatoScreen.js          |
+| SQLite                  | ProfileScreen.js (solo perfil)           |
+
+---
+
+## ⚡ Ejemplo visual de pantallas
+
+┌──────────── HomeScreen ─────────────┐
+│ [🍕] Pizza Napolitana              │
+│ [🍔] Burger Provoleta              │
+│ [🍣] Sushi Variado 7               │ 
+│               Agregar plato  [ + ]  │
+└─────────────────────────────────────┘
+
+┌──────────── MapScreen ──────────────┐
+│ [ Mapa con pines de platos ]        │
+│ [Filtro: Sushi, 2024]               │
+└─────────────────────────────────────┘
+
+┌───────── Estadísticas ──────────────┐
+│ Total de platos: 14                 │
+│ Favoritos: 4                        │
+│ Mejor puntuado: “Tarta Marquisse”   │
+│ Categoría más frecuente: Pizza      │
+└─────────────────────────────────────┘
+
+┌──────────── Perfil ─────────────────┐
+│ Foto Nombre Email                   │
+│ [ Cambiar foto ] [ Guardar ]        │
+│ [ Cerrar sesión ]                   │
+└─────────────────────────────────────┘
+
+
+---
+
+## 🏗️ Futuras mejoras
+
+- Posibilidad de cambiar la direccion de mail y contrasena
+- Poder compartir platos con amigos
+- Mapa interactivo
+
+---
+
+## ✍️ Créditos
+
+Desarrollado por Alan Flomembaum para el proyecto final de React Native / Expo en CoderHouse.  
+---

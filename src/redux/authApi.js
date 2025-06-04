@@ -14,13 +14,14 @@ export const authApi = createApi({
             uid: userCredential.user.uid,
             email: userCredential.user.email,
           };
+
           return { data: user };
         } catch (error) {
           return { error: { message: error.message } };
         }
       },
     }),
-    signup: builder.mutation({  
+    signup: builder.mutation({
       async queryFn({ email, password }) {
         try {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);

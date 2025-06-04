@@ -4,6 +4,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import StatsScreen from '../screens/StatsScreen';
 import HomeScreen from '../screens/HomeScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { Text } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,9 +34,19 @@ export default function BottomTabNavigator() {
             />
           );
         },
-        tabBarActiveTintColor: '#00adb5',
-        tabBarInactiveTintColor: '#aaaaaa',
-        tabBarShowLabel: true,
+        tabBarLabel: ({ focused }) => (
+          <Text
+            style={{
+              fontSize: 13,
+              marginBottom: 2,
+              letterSpacing: 0.4,
+              fontFamily: focused ? 'Livvic-Bold' : 'Livvic-Regular',
+              color: focused ? '#00adb5' : '#aaaaaa',
+            }}
+          >
+            {route.name}
+          </Text>
+        ),
         tabBarStyle: {
           backgroundColor: '#393e46',
           borderTopWidth: 0,
@@ -47,12 +58,6 @@ export default function BottomTabNavigator() {
           shadowOffset: { width: 0, height: -2 },
           shadowRadius: 8,
           elevation: 12,
-        },
-        tabBarLabelStyle: {
-          fontWeight: 'bold',
-          fontSize: 13,
-          marginBottom: 2,
-          letterSpacing: 0.4,
         },
       })}
     >

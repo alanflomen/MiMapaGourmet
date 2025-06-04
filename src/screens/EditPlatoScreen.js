@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     View, Text, TextInput, Image, TouchableOpacity,
     Modal, Pressable, ActivityIndicator, Switch, Alert, ScrollView
@@ -31,32 +31,36 @@ export default function EditPlatoScreen({ plato, onClose }) {
     const [loading, setLoading] = useState(false);
     const [showExito, setShowExito] = useState(false);
     const [showEliminar, setShowEliminar] = useState(false);
+    const [errores, setErrores] = useState([]);
+    const [showFotoAmpliada, setShowFotoAmpliada] = useState(false);
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitud},${longitud}&key=AIzaSyBIvpR_Lbz-a9RC__LXgIvR4ofZwfHGDbM`;
     const [direccion, setDireccion] = useState("");
-    const [showFotoAmpliada, setShowFotoAmpliada] = useState(false);
+
+    // Referencias para saltar con el teclado
+    const descripcionRef = useRef(null);
+    const notasPersRef = useRef(null);
+    const puntajeRef = useRef(null);
+    const precioRef = useRef(null);
+    const scrollViewRef = useRef(null);
 
     useEffect(() => {
         async function fetchDireccion() {
             const dir = await ObtenerDireccion(latitud, longitud);
             setDireccion(dir);
         }
-        if (latitud && longitud) {
-            fetchDireccion();
-        }
+        if (latitud && longitud) fetchDireccion();
+        // eslint-disable-next-line
     }, [latitud, longitud]);
+
     const ObtenerDireccion = async () => {
         try {
-            const response = await fetch(
-                url
-            );
+            const response = await fetch(url);
             const data = await response.json();
-            return data.results[0].formatted_address || "Dirección no encontrada";
+            return data.results[0]?.formatted_address || "Dirección no encontrada";
         } catch (error) {
             return "Error al obtener dirección";
         }
-
-
-    }
+    };
 
     // Si cambian las categorías, actualiza el dropdown
     useEffect(() => {
@@ -101,7 +105,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
         setLoading(false);
     };
 
-    // Si cambió algún campo relevante
+    // Chequear si hubo cambios
     const haCambiado = () => (
         titulo.trim() !== (plato.titulo || '') ||
         descripcion !== (plato.descripcion || '') ||
@@ -115,11 +119,29 @@ export default function EditPlatoScreen({ plato, onClose }) {
         JSON.stringify(categoriasSeleccionadas) !== JSON.stringify(plato.categoriasIds)
     );
 
-    // Validación: título, foto, categoría y hubo cambios
-    const puedeGuardar = titulo.trim().length > 0 && foto && categoriasSeleccionadas.length > 0 && haCambiado();
+    // Validación de campos obligatorios
+    const validarCampos = () => {
+        const nuevosErrores = [];
+        if (!titulo.trim()) nuevosErrores.push('El título es obligatorio.');
+        if (!foto) nuevosErrores.push('La foto es obligatoria.');
+        if (categoriasSeleccionadas.length === 0) nuevosErrores.push('Debes elegir al menos una categoría.');
+        // Podés agregar más validaciones si querés
+        if (!haCambiado()) nuevosErrores.push('No hiciste ningún cambio.');
+        return nuevosErrores;
+    };
 
     // Guardar cambios
     const handleGuardar = async () => {
+        const nuevosErrores = validarCampos();
+        setErrores(nuevosErrores);
+        if (nuevosErrores.length > 0 && scrollViewRef.current) {
+            // Scroll al final
+            setTimeout(() => {
+                scrollViewRef.current.scrollToEnd({ animated: true });
+            }, 50); // Un pequeño delay para que se rendericen los errores primero
+            return;
+        }
+
         setLoading(true);
         try {
             const platoEditado = {
@@ -149,8 +171,8 @@ export default function EditPlatoScreen({ plato, onClose }) {
     const handleEliminar = async () => {
         setLoading(true);
         try {
-            await borrarPlato(plato.id); // Borra en Firebase
-            dispatch(eliminarPlato(plato.id)); // Borra en Redux
+            await borrarPlato(plato.id);
+            dispatch(eliminarPlato(plato.id));
             setLoading(false);
             setShowExito(true);
         } catch (err) {
@@ -169,12 +191,9 @@ export default function EditPlatoScreen({ plato, onClose }) {
     const mostrarConfirmacionEliminar = () => setShowEliminar(true);
     const cerrarConfirmacionEliminar = () => setShowEliminar(false);
 
-
     return (
         <View style={styles.container}>
-            <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-
-
+            <ScrollView contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 16 }} ref={scrollViewRef}>
                 <Text style={styles.tituloPantalla}>Editar Plato</Text>
 
                 {/* FOTO */}
@@ -186,60 +205,89 @@ export default function EditPlatoScreen({ plato, onClose }) {
                                 style={styles.foto}
                             />
                         </TouchableOpacity>
-
                     ) : (
-                        <Text style={{ color: '#999' }}>Sin foto</Text>
+                        <Text style={{ color: '#999',textAlign: 'center', fontFamily: 'Livvic-Regular', }}>Sin foto{"\n"}(obligatoria)</Text>
                     )}
                 </View>
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.botonFoto} onPress={() => pickImage(true)}>
+                <View style={styles.rowBotonesEditPlato}>
+                    <TouchableOpacity style={[styles.botonFoto, { flex: 1, marginRight: 6 }]} onPress={() => pickImage(true)}>
                         <Text style={styles.botonFotoText}>Reemplazar foto 📷</Text>
                     </TouchableOpacity>
-                </View>
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.botonGaleria} onPress={() => pickImage(false)}>
+                    <TouchableOpacity style={[styles.botonGaleria, { flex: 1, marginLeft: 6 }]} onPress={() => pickImage(false)}>
                         <Text style={styles.botonGaleriaText}>Reemplazar de galería</Text>
                     </TouchableOpacity>
                 </View>
 
+
+                <Text style={styles.labelInput}>Título (obligatorio)</Text>
                 <TextInput
-                    placeholder="Título *"
+                    placeholder="Ej.: Torta Marquisse"
                     value={titulo}
+                    placeholderTextColor="#aaaa"
                     onChangeText={setTitulo}
                     style={styles.input}
+                    returnKeyType="next"
+                    onSubmitEditing={() => descripcionRef.current?.focus()}
+
                 />
+                <Text style={styles.labelInput}>Descripción</Text>
                 <TextInput
-                    placeholder="Descripción"
+                    placeholder="Ej.: Mucho chocolate"
+                    placeholderTextColor="#aaaa"
                     value={descripcion}
                     onChangeText={setDescripcion}
                     style={styles.input}
+                    returnKeyType="next"
+                    ref={descripcionRef}
+                    onSubmitEditing={() => notasPersRef.current?.focus()}
                 />
+                <Text style={styles.labelInput}>Notas personales</Text>
                 <TextInput
-                    placeholder="Notas personales"
+                    placeholder="Ej.: La mejor que probé..."
+                    placeholderTextColor="#aaaa"
                     value={notas}
                     onChangeText={setNotas}
                     style={styles.input}
+                    returnKeyType="next"
+                    ref={notasPersRef}
+                    multiline={true}
+                    numberOfLines={3}
+                    maxLength={200}
+                    onSubmitEditing={() => puntajeRef.current?.focus()}
                 />
 
                 <View style={styles.row}>
-                    <TextInput
-                        placeholder="Puntaje (1-5)"
-                        value={puntaje}
-                        onChangeText={v => handleChangeNumero(v, setPuntaje, true)}
-                        keyboardType="decimal-pad"
-                        maxLength={4}
-                        style={[styles.input, { flex: 1 }]}
-                    />
-                    <TextInput
-                        placeholder="Precio $"
-                        value={precio}
-                        onChangeText={v => handleChangeNumero(v, setPrecio, true)}
-                        keyboardType="decimal-pad"
-                        maxLength={8}
-                        style={[styles.input, { flex: 1 }]}
-                    />
+                    <View style={{ flex: 1, marginRight: 4 }}>
+                        <Text style={styles.labelInput}>Puntaje (0-10)</Text>
+                        <TextInput
+                            placeholder="Ej.: 9.95"
+                            placeholderTextColor="#aaaa"
+                            value={puntaje}
+                            onChangeText={v => handleChangeNumero(v, setPuntaje, true)}
+                            keyboardType="decimal-pad"
+                            maxLength={4}
+                            style={[styles.input, { flex: 1 }]}
+                            returnKeyType="next"
+                            onSubmitEditing={() => precioRef.current?.focus()}
+                            ref={puntajeRef}
+                        />
+                    </View>
+                    <View style={{ flex: 1, marginLeft: 4 }}>
+                        <Text style={styles.labelInput}>Precio $</Text>
+                        <TextInput
+                            placeholder="Ej.: $1500"
+                            placeholderTextColor="#aaaa"
+                            value={precio}
+                            onChangeText={v => handleChangeNumero(v, setPrecio, true)}
+                            keyboardType="decimal-pad"
+                            maxLength={8}
+                            style={[styles.input, { flex: 1 }]}
+                            ref={precioRef}
+                        />
+                    </View>
                 </View>
 
+                <Text style={styles.labelInput}>Categorías (obligatorio)</Text>
                 <DropDownPicker
                     open={openCategorias}
                     setOpen={setOpenCategorias}
@@ -269,7 +317,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
                 />
 
                 <View style={styles.favoritoRow}>
-                    <Pressable onPress={!favorito ? () => setFavorito(true) : () => setFavorito(false)}>
+                    <Pressable onPress={() => setFavorito(!favorito)}>
                         <Text style={styles.favoritoLabel}>Favorito</Text>
                     </Pressable>
                     <Switch value={favorito} onValueChange={setFavorito} />
@@ -292,10 +340,18 @@ export default function EditPlatoScreen({ plato, onClose }) {
                     <Text style={styles.ubicacionText}>{direccion}</Text>
                 </View>
 
-
                 <Text style={styles.hora}>
                     Registrado: {plato.fechaHora ? new Date(plato.fechaHora).toLocaleString() : '-'}
                 </Text>
+
+                {/* ERRORES DE VALIDACIÓN */}
+                {errores.length > 0 && (
+                    <View style={{ marginTop: 12, marginBottom: 4, alignSelf: 'center' }}>
+                        {errores.map((err, i) => (
+                            <Text key={i} style={{ color: 'red', marginBottom: 2, fontFamily: 'Livvic-Bold'}}>{err}</Text>
+                        ))}
+                    </View>
+                )}
 
                 {loading && (
                     <View style={styles.loadingOverlay}>
@@ -312,7 +368,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
                 >
                     <View style={styles.exitoBg}>
                         <View style={styles.exitoCard}>
-                            <Text style={styles.exitoTitulo}>¡Plato actualizado!</Text>
+                            <Text style={styles.exitoTitulo}>{showEliminar ? "¡Plato eliminado!" : "¡Plato actualizado!"}</Text>
                             <Text style={styles.exitoTexto}>
                                 {showEliminar ? 'El plato fue eliminado correctamente.' : 'Los cambios fueron guardados.'}
                             </Text>
@@ -338,7 +394,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
                                 <TouchableOpacity style={styles.botonCancelarModal} onPress={onClose}>
                                     <Text style={styles.botonCancelarTextModal}>Cancelar</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.botonSecundario} onPress={mostrarConfirmacionEliminar}>
+                                <TouchableOpacity style={styles.botonSecundario} onPress={handleEliminar}>
                                     <Text style={styles.botonSecundarioText}>Eliminar</Text>
                                 </TouchableOpacity>
                             </View>
@@ -371,7 +427,6 @@ export default function EditPlatoScreen({ plato, onClose }) {
                         </View>
                     </TouchableOpacity>
                 </Modal>
-
             </ScrollView>
             {/* BOTONES */}
             <View style={styles.accionesRowEditarPlato}>
@@ -384,12 +439,10 @@ export default function EditPlatoScreen({ plato, onClose }) {
                 <TouchableOpacity
                     style={styles.botonGuardar}
                     onPress={handleGuardar}
-                    disabled={!puedeGuardar || loading}
                 >
                     <Text style={styles.botonGuardarText}>Guardar</Text>
                 </TouchableOpacity>
             </View>
-
         </View>
     );
 }

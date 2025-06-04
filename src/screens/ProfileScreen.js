@@ -5,19 +5,16 @@ import * as ImagePicker from 'expo-image-picker';
 import { useSelector, useDispatch } from 'react-redux';
 import { styles } from '../styles/style';
 import { auth } from '../firebase/config';
-import { cambiarEstado, cambiarEmail } from '../redux/slices/loginSlice';
 
 export default function ProfileScreen() {
     const dispatch = useDispatch();
     const [foto, setFoto] = useState("");
     const [nombre, setNombre] = useState("");
-    const [email, setMail] = useState("");
+    const emailActual = auth.currentUser?.email || '';
     const db = useSQLiteContext();
     const [btnGuardarDeshabilitado, setBtnGuardarDeshabilitado] = useState(false);
     const [nombreOriginal, setNombreOriginal] = useState("");
-    const [emailOriginal, setEmailOriginal] = useState("");
     const [fotoOriginal, setFotoOriginal] = useState("");
-    const mailRedux = useSelector((state) => state.logueado.email);
 
     const verifyPermissions = async () => {
         const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -59,15 +56,13 @@ export default function ProfileScreen() {
     useEffect(() => {
         async function setup() {
             try {
-                //console.log(mailRedux);
-                const result = await db.getFirstAsync('SELECT * FROM usuario where email = ?', mailRedux);
-                //console.log("Usuario encontrado:", result);
+                const emailAuth = auth.currentUser?.email || '';
+                if (!emailAuth) return;
+                const result = await db.getFirstAsync('SELECT * FROM usuario where email = ?', emailAuth);
                 if (result) {
                     setNombre(result.nombre || "");
-                    setMail(result.email.toLowerCase() || "");
                     setFoto(result.fotoBase64 || "");
                     setNombreOriginal(result.nombre || "");
-                    setEmailOriginal(result.email.toLowerCase() || "");
                     setFotoOriginal(result.fotoBase64 || "");
                 } else {
                     console.log("No se encontró el usuario en la base de datos.");
@@ -79,18 +74,13 @@ export default function ProfileScreen() {
         setup();
     }, []);
     const guardarCambios = async () => {
-        if (!esEmailValido(email)) {
-            Alert.alert("Por favor, ingrese un email válido.");
-            return;
-        }
         try {
             await db.runAsync(
                 'UPDATE usuario SET nombre = ?, email = ?, fotoBase64 = ? WHERE email = ?;',
-                nombre, email.toLowerCase(), foto, emailOriginal
+                nombre, emailActual.toLowerCase(), foto, emailOriginal
             );
             // Actualiza los valores originales para deshabilitar el botón
             setNombreOriginal(nombre);
-            setEmailOriginal(email.toLowerCase());
             setFotoOriginal(foto);
             setBtnGuardarDeshabilitado(true);
             Alert.alert("¡Éxito!", "Datos actualizados correctamente.");
@@ -99,9 +89,6 @@ export default function ProfileScreen() {
             console.error("Error al modificar el usuario:", error);
         }
     };
-    //regex que valida mailsss
-    const esEmailValido = (email) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     const hayCambios = () => {
         //Valido que el Nombre no este vacío
@@ -110,14 +97,12 @@ export default function ProfileScreen() {
         // Si alguno es diferente, habilita guardar
         return (
             nombre !== nombreOriginal ||
-            email !== emailOriginal ||
             foto !== fotoOriginal
         ) ? false : true; // true para deshabilitar, false para habilitar xq es un disabled
     };
     const CerrarSesion = async () => {
         try {
-            dispatch(cambiarEmail(''));
-            dispatch(cambiarEstado());
+            //dispatch(cambiarEmail(''));
             auth.signOut()
         }
         catch (error) {
@@ -130,7 +115,7 @@ export default function ProfileScreen() {
             {nombre ?
                 <Text style={styles.tituloPantalla}>Hola, {nombre}!</Text>
                 :
-                <Text style={styles.tituloPantalla}>  Hola!{"\n"}Por favor, completá tus datos!
+                <Text style={styles.tituloPantalla}>  Hola!{"\n"}Por favor, completá tu nombre!
                 </Text>}
 
             <View style={styles.fotoContainer}>
@@ -148,7 +133,7 @@ export default function ProfileScreen() {
                     <Text style={styles.botonFotoText}>{foto ? "Cambiar foto  📷" : "Tomar foto 📷"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.botonGaleria} onPress={() => pickImage(false)}>
-                    <Text style={styles.botonGaleriaText}>Elegir de galería</Text>
+                    <Text style={styles.botonGaleriaText}>Elegir otra de galería</Text>
                 </TouchableOpacity>
             </View>
 
@@ -162,11 +147,11 @@ export default function ProfileScreen() {
 
             <TextInput
                 placeholder="Email"
-                value={email}
-                onChangeText={setMail}
+                value={emailActual}
                 style={styles.input}
                 keyboardType="email-address"
                 placeholderTextColor="#aaaaaa"
+                editable={false} //por ahora el mail no lo va a poder editar
             />
 
 

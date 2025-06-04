@@ -9,7 +9,7 @@ import AddPlatoScreen from './AddPlatoScreen';
 import EditPlatoScreen from './EditPlatoScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { styles } from '../styles/style'; // Importa tus estilos desde un archivo separado
-// Traé la lista de categorías desde Redux
+import { loadFonts } from '../fonts/fonts'; // Asegúrate de tener una función para cargar las fuentes
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ export default function HomeScreen({ navigation }) {
   );
   const [modalAddPlatoVisible, setModalAddPlatoVisible] = useState(false);
   const [platoAEditar, setPlatoAEditar] = useState(null);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const handleAbrirEditar = (plato) => setPlatoAEditar(plato);
   const handleCerrarEditar = () => setPlatoAEditar(null);
@@ -34,6 +35,17 @@ export default function HomeScreen({ navigation }) {
     dispatch(cargarPlatos());
     dispatch(cargarCategorias());
   }, [dispatch]);
+
+  useEffect(() => {
+    const loadAllFonts = async () => {
+      await loadFonts();
+      setFontsLoaded(true);
+    };
+
+    loadAllFonts();
+  }, []);
+
+  
 
   useEffect(() => {
     setItems(categorias.map(cat => ({ label: cat.nombre, value: cat.id })));

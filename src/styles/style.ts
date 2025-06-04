@@ -3,20 +3,20 @@ export const styles = StyleSheet.create({
     //HomeScreen
     container: {
         flex: 1,
-        backgroundColor: '#222831', // Fondo oscuro principal
+        backgroundColor: '#222831',
         paddingHorizontal: 12,
         paddingTop: 8,
     },
     tituloPantalla: {
         fontSize: 26,
-        fontWeight: 'bold',
-        color: '#00adb5', // Turquesa neón
+        color: '#00adb5',
         marginVertical: 16,
         textAlign: 'center',
         letterSpacing: 1.1,
         textShadowColor: '#393e46',
         textShadowOffset: { width: 0, height: 2 },
         textShadowRadius: 6,
+        fontFamily: 'Livvic-Bold',
     },
     filtrosContainer: {
         backgroundColor: '#393e46',
@@ -37,12 +37,22 @@ export const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 10,
         fontSize: 16,
-        color: '#aaaaaa', // Blanco casi puro
+        color: 'white',
         marginBottom: 3,
         shadowColor: '#00adb5',
         shadowOpacity: 0.04,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
+        fontFamily: 'Livvic-Regular',
+
+    },
+    labelInput: {
+        color: '#00adb5',
+        fontSize: 16,
+        //
+        marginBottom: 6,
+        paddingLeft: 4,
+        fontFamily: 'Livvic-Regular',
     },
     inputAddPlato: {
         backgroundColor: '#393e46',
@@ -51,27 +61,30 @@ export const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 10,
         fontSize: 16,
-        color: '#aaaaaa',
+        color: 'white',
         marginBottom: 3,
         shadowColor: '#00adb5',
         shadowOpacity: 0.04,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
+        fontFamily: 'Livvic-Regular',
     },
     cargando: {
         textAlign: 'center',
         marginTop: 20,
         color: '#00adb5',
-        fontWeight: 'bold',
+
         fontSize: 18,
         letterSpacing: 0.5,
+        fontFamily: 'Livvic-Regular',
     },
     vacio: {
         textAlign: 'center',
         marginTop: 40,
-        color: '#ffb347', // Naranja pastel para mensajes vacíos
+        color: '#ffb347',
         fontWeight: '600',
         fontSize: 17,
+        fontFamily: 'Livvic-Regular',
     },
     card: {
         flexDirection: 'row',
@@ -108,6 +121,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         width: 68,
         height: 68,
+        fontFamily: 'Livvic-Regular',
     },
     cardContent: {
         flex: 1,
@@ -116,9 +130,9 @@ export const styles = StyleSheet.create({
     },
     titulo: {
         fontSize: 18,
-        fontWeight: 'bold',
         color: '#00adb5',
         marginBottom: 2,
+        fontFamily: 'Livvic-Bold',
     },
     descripcion: {
         fontSize: 14,
@@ -127,12 +141,14 @@ export const styles = StyleSheet.create({
         fontWeight: '500',
         marginBottom: 4,
         marginTop: 2,
+        fontFamily: 'Livvic-Regular',
     },
     fecha: {
         fontSize: 12,
         color: '#ffb347',
         marginTop: 2,
-        fontWeight: 'bold',
+
+        fontFamily: 'Livvic-Regular',
     },
     button: {
         backgroundColor: '#222831',
@@ -147,6 +163,7 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 3,
         elevation: 2,
+        fontFamily: 'Livvic-Regular',
     },
     fab: {
         position: 'absolute',
@@ -167,12 +184,16 @@ export const styles = StyleSheet.create({
     fabTexto: {
         color: '#eeeeee',
         fontSize: 40,
-        fontWeight: 'bold',
-        lineHeight: 42,
+        lineHeight: 40,
         textShadowColor: '#222831',
-        textShadowOffset: { width: 0, height: 1 },
+        textShadowOffset: { width: 3, height: 3 },
         textShadowRadius: 4,
+        fontFamily: 'Livvic-Bold',
+        textAlign: 'center', 
+        paddingBottom: 12,
+
     },
+
     dropdown: {
         backgroundColor: '#393e46',
         borderColor: '#00adb5',
@@ -181,6 +202,7 @@ export const styles = StyleSheet.create({
         minHeight: 44,
         paddingHorizontal: 12,
         zIndex: 2000,
+        fontFamily: 'Livvic-Regular',
     },
     dropdownContainer: {
         backgroundColor: '#393e46',
@@ -188,33 +210,36 @@ export const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderRadius: 12,
         zIndex: 2500,
-        // sombras solo si querés, para overlay
         shadowColor: '#00adb5',
         shadowOpacity: 0.10,
         shadowOffset: { width: 0, height: 3 },
         shadowRadius: 7,
         elevation: 7,
-
+        fontFamily: 'Livvic-Regular',
     },
     dropdownPlaceholder: {
         color: '#aaaaaa',
         fontSize: 15,
         marginLeft: 4,
+        fontFamily: 'Livvic-Regular',
     },
     dropdownLabel: {
         color: '#eeeeee',
         fontSize: 15,
         fontWeight: '500',
+        fontFamily: 'Livvic-Regular',
     },
     dropdownSelectedLabel: {
         color: '#00adb5',
-        fontWeight: 'bold',
+
         fontSize: 16,
+        fontFamily: 'Livvic-Regular',
     },
     dropdownListItem: {
-        borderBottomColor: '#25272A',
+        borderBottomColor: '#aaaa',
         borderBottomWidth: 0.6,
         backgroundColor: '#393e46',
+        fontFamily: 'Livvic-Regular',
     },
     dropdownArrow: {
         tintColor: '#00adb5',
@@ -222,9 +247,9 @@ export const styles = StyleSheet.create({
     //AddPlato
     fotoContainer: {
         alignSelf: 'center',
-        width: 128,
-        height: 128,
-        borderRadius: 16,
+        width: 180,
+        height: 180,
+        borderRadius: 100,
         backgroundColor: '#393e46',
         justifyContent: 'center',
         alignItems: 'center',
@@ -237,8 +262,8 @@ export const styles = StyleSheet.create({
         elevation: 8,
     },
     foto: {
-        width: 128,
-        height: 128,
+        width: 180,
+        height: 180,
         borderRadius: 16,
     },
     loadingOverlay: {
@@ -256,6 +281,17 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
         marginHorizontal: 0,
     },
+    rowBotonesEditPlato: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+        marginHorizontal: 0,
+        flex: 1,
+        width: '100%',
+        marginTop: 10,
+        marginBottom: 14,
+    },
     favoritoRow: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -270,7 +306,8 @@ export const styles = StyleSheet.create({
         marginRight: 8,
         fontSize: 16,
         color: '#00adb5',
-        fontWeight: 'bold',
+
+        fontFamily: 'Livvic-Regular',
     },
     ubicacionRow: {
         flexDirection: 'row',
@@ -284,6 +321,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '600',
         textAlign: 'center',
+        fontFamily: 'Livvic-Regular',
     },
     exitoBg: {
         flex: 1,
@@ -305,10 +343,11 @@ export const styles = StyleSheet.create({
     },
     exitoTitulo: {
         fontSize: 23,
-        fontWeight: 'bold',
+
         marginBottom: 10,
         color: '#00adb5',
         letterSpacing: 0.2,
+        fontFamily: 'Livvic-Bold',
     },
     exitoTexto: {
         fontSize: 17,
@@ -316,6 +355,7 @@ export const styles = StyleSheet.create({
         color: '#eeeeee',
         textAlign: 'center',
         fontWeight: '500',
+        fontFamily: 'Livvic-Regular',
     },
     accionesRow: {
         flexDirection: 'row',
@@ -360,7 +400,9 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.17,
         shadowRadius: 8,
         elevation: 5,
-    }, botonPrimarioDisabled: {
+        fontFamily: 'Livvic-Regular',
+    },
+    botonPrimarioDisabled: {
         backgroundColor: '#aaaa',
         paddingVertical: 13,
         paddingHorizontal: 26,
@@ -372,12 +414,14 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.17,
         shadowRadius: 8,
         elevation: 5,
+        fontFamily: 'Livvic-Regular',
     },
     botonPrimarioText: {
         color: '#eeeeee',
-        fontWeight: 'bold',
+
         fontSize: 17,
         letterSpacing: 1.2,
+        fontFamily: 'Livvic-Regular',
     },
     botonSecundario: {
         backgroundColor: '#c00',
@@ -391,12 +435,14 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.13,
         shadowRadius: 7,
         elevation: 3,
+        fontFamily: 'Livvic-Regular',
     },
     botonSecundarioText: {
         color: '#fff',
-        fontWeight: 'bold',
+
         fontSize: 17,
         letterSpacing: 1,
+        fontFamily: 'Livvic-Regular',
     },
     botonFoto: {
         backgroundColor: '#7fd1b9',
@@ -411,16 +457,20 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.11,
         shadowRadius: 6,
         elevation: 3,
+        fontFamily: 'Livvic-Regular',
     },
     botonFotoText: {
         color: '#222831',
-        fontWeight: 'bold',
+        //
         fontSize: 16,
+        alignContent: 'center',
+        textAlign: 'center',
+        fontFamily: 'Livvic-Regular',
     },
     botonGaleria: {
         backgroundColor: '#ad7df6',
         paddingVertical: 12,
-        paddingHorizontal: 22,
+        paddingHorizontal: 15,
         borderRadius: 22,
         marginHorizontal: 6,
         marginBottom: 4,
@@ -430,11 +480,14 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.11,
         shadowRadius: 6,
         elevation: 3,
+        fontFamily: 'Livvic-Regular',
     },
     botonGaleriaText: {
         color: '#fff',
-        fontWeight: 'bold',
         fontSize: 16,
+        alignContent: 'center',
+        textAlign: 'center',
+        fontFamily: 'Livvic-Regular',
     },
     botonUbicacion: {
         backgroundColor: '#ffb347',
@@ -448,6 +501,7 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.12,
         shadowRadius: 7,
         elevation: 3,
+        fontFamily: 'Livvic-Regular',
     },
     botonUbicacionDeshabilitado: {
         backgroundColor: '#D4963F',
@@ -461,16 +515,19 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.12,
         shadowRadius: 7,
         elevation: 3,
+        fontFamily: 'Livvic-Regular',
     },
     botonUbicacionText: {
         color: '#222831',
-        fontWeight: 'bold',
+
         fontSize: 16,
+        fontFamily: 'Livvic-Regular',
     },
     botonUbicacionTextDehabilitado: {
         color: '#222831',
-        fontWeight: 'bold',
+
         fontSize: 16,
+        fontFamily: 'Livvic-Regular',
     },
     //EditPlato
     mapaContainer: {
@@ -485,19 +542,21 @@ export const styles = StyleSheet.create({
     },
     subtitulo: {
         fontSize: 20,
-        fontWeight: 'bold',
+
         color: '#00adb5',
         marginTop: 24,
         marginBottom: 8,
         textAlign: 'center',
+        fontFamily: 'Livvic-Regular',
     },
     hora: {
         fontSize: 12,
-        fontWeight: 'bold',
+
         color: '#ffb347',
         marginTop: 24,
         marginBottom: 8,
         textAlign: 'center',
+        fontFamily: 'Livvic-Regular',
     },
     image: {
         width: '100%',
@@ -517,6 +576,7 @@ export const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 2,
         flex: 1,
+        fontFamily: 'Livvic-Regular',
     },
     botonCancelarModal: {
         backgroundColor: '#eeeeee',
@@ -531,15 +591,17 @@ export const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 2,
         flex: 1,
+        fontFamily: 'Livvic-Regular',
     },
     botonCancelarText: {
         color: '#eeeeee',
-        fontWeight: 'bold',
+
         fontSize: 15,
         letterSpacing: 0.5,
+        fontFamily: 'Livvic-Regular',
     },
     botonOK: {
-        backgroundColor: '#00adb5', // Turquesa neón (primario)
+        backgroundColor: '#00adb5',
         paddingVertical: 13,
         paddingHorizontal: 30,
         borderRadius: 26,
@@ -550,18 +612,21 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.17,
         shadowRadius: 8,
         elevation: 5,
+        fontFamily: 'Livvic-Regular',
     },
     botonOKText: {
         color: '#eeeeee',
-        fontWeight: 'bold',
+
         fontSize: 17,
         letterSpacing: 1.2,
+        fontFamily: 'Livvic-Regular',
     },
     botonCancelarTextModal: {
         color: '#aaaaa',
-        fontWeight: 'bold',
+
         fontSize: 15,
         letterSpacing: 0.5,
+        fontFamily: 'Livvic-Regular',
     },
     botonEliminar: {
         backgroundColor: '#c00',
@@ -576,12 +641,13 @@ export const styles = StyleSheet.create({
         shadowRadius: 7,
         elevation: 3,
         flex: 1,
+        fontFamily: 'Livvic-Regular',
     },
     botonEliminarText: {
         color: '#fff',
-        fontWeight: 'bold',
+
         fontSize: 15,
-        //letterSpacing: 0.5,
+        fontFamily: 'Livvic-Regular',
     },
     botonGuardar: {
         backgroundColor: '#00adb5',
@@ -596,12 +662,14 @@ export const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 5,
         flex: 1,
+        fontFamily: 'Livvic-Regular',
     },
     botonGuardarText: {
         color: '#eeeeee',
-        fontWeight: 'bold',
+
         fontSize: 15,
         letterSpacing: 1.2,
+        fontFamily: 'Livvic-Regular',
     },
     accionesRowEditarPlato: {
         flexDirection: 'row',
@@ -635,23 +703,22 @@ export const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontWeight: 'bold',
+
         fontSize: 14,
         letterSpacing: 0.6,
+        fontFamily: 'Livvic-Regular',
     },
     //StatsScreen
     containerStats: {
         alignItems: 'center',
         flex: 1,
         paddingVertical: 18,
-        backgroundColor: '#222831', // Dark mode fondo
+        backgroundColor: '#222831',
         minHeight: '100%',
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-
     },
     title: {
         fontSize: 27,
-        fontWeight: 'bold',
         color: '#00adb5',
         marginBottom: 20,
         textAlign: 'center',
@@ -660,6 +727,7 @@ export const styles = StyleSheet.create({
         textShadowColor: '#393e46',
         textShadowOffset: { width: 0, height: 2 },
         textShadowRadius: 7,
+        fontFamily: 'Livvic-Bold',
     },
     box: {
         backgroundColor: '#393e46',
@@ -673,6 +741,7 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.07,
         shadowRadius: 7,
         elevation: 3,
+        fontFamily: 'Livvic-Regular',
     },
     subtitle: {
         fontSize: 17,
@@ -680,24 +749,29 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         marginBottom: 8,
         textAlign: 'center',
+        fontFamily: 'Livvic-Regular',
     },
     total: {
         fontSize: 39,
-        fontWeight: 'bold',
+
         color: '#00adb5',
         marginBottom: 2,
+        fontFamily: 'Livvic-Regular',
     },
     promedio: {
         fontSize: 32,
         color: '#ffb347',
-        fontWeight: 'bold',
+
         marginBottom: 2,
+        textAlign: 'center',
+        fontFamily: 'Livvic-Regular',
     },
     favorito: {
         fontSize: 16,
         color: '#00adb5',
         fontWeight: '600',
         marginBottom: 2,
+        fontFamily: 'Livvic-Regular',
     },
     scrollContentStats: {
         alignItems: 'center',
@@ -718,21 +792,24 @@ export const styles = StyleSheet.create({
         elevation: 3,
         marginHorizontal: 2,
         borderWidth: 1,
-        borderColor: '#00adb5'
+        borderColor: '#00adb5',
+        fontFamily: 'Livvic-Regular',
     },
     botonCerrarSesionText: {
         color: '#ffb347',
-        fontWeight: 'bold',
+
         fontSize: 17,
         letterSpacing: 1.2,
+        fontFamily: 'Livvic-Regular',
     },
     //LoginScreen
     containerLogin: {
         flex: 1,
         backgroundColor: '#222831',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 22,
+        paddingTop: 40,
     },
     imageLogin: {
         width: 140,
@@ -741,14 +818,14 @@ export const styles = StyleSheet.create({
     },
     titleLogin: {
         fontSize: 28,
-        fontWeight: 'bold',
-        color: '#00adb5', 
-        marginBottom: 20,     // <-- SOLO abajo, no arriba
+        color: '#00adb5',
+        marginBottom: 20,
         textAlign: 'center',
         letterSpacing: 1,
         textShadowColor: '#393e46',
         textShadowOffset: { width: 0, height: 2 },
         textShadowRadius: 6,
+        fontFamily: 'Livvic-Bold',
     },
     inputLogin: {
         backgroundColor: '#393e46',
@@ -764,6 +841,7 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.08,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
+        fontFamily: 'Livvic-Regular',
     },
     botonLogin: {
         backgroundColor: '#00adb5',
@@ -772,34 +850,38 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 6,
         marginBottom: 4,
-        width: 260,         // Igual que input
+        width: 260,
         shadowColor: '#00adb5',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.13,
         shadowRadius: 7,
         elevation: 4,
+        fontFamily: 'Livvic-Regular',
     },
     botonLoginText: {
         color: '#eeeeee',
-        fontWeight: 'bold',
+
         fontSize: 18,
         letterSpacing: 1.1,
+        fontFamily: 'Livvic-Regular',
     },
     error: {
         color: '#c00',
         marginTop: 12,
-        fontWeight: 'bold',
+
         textAlign: 'center',
         fontSize: 15,
+        fontFamily: 'Livvic-Bold',
     },
     linkRegistrarse: {
         marginTop: 22,
         textAlign: 'center',
         color: '#00adb5',
         fontSize: 16,
-        fontWeight: 'bold',
+
         textDecorationLine: 'underline',
         letterSpacing: 0.3,
+        fontFamily: 'Livvic-Regular',
     },
     //RegisterScreen
     botonRegistro: {
@@ -814,19 +896,19 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.13,
         shadowRadius: 7,
         elevation: 4,
+        fontFamily: 'Livvic-Regular',
     },
     botonRegistroText: {
         color: '#eeeeee',
-        fontWeight: 'bold',
+
         fontSize: 18,
         letterSpacing: 1.1,
-
+        fontFamily: 'Livvic-Regular',
     },
     containerRegister: {
         flex: 1,
         backgroundColor: '#222831',
-        //justifyContent: 'center',
-        alignItems: 'center', // ← centra horizontal
+        alignItems: 'center',
         padding: 22,
     },
     inputRegister: {
@@ -838,11 +920,11 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: '#eeeeee',
         marginBottom: 16,
-        width: 260,         // ANCHO FIJO para inputs, así quedan centrados
+        width: 260,
         shadowColor: '#00adb5',
         shadowOpacity: 0.08,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
+        fontFamily: 'Livvic-Regular',
     }
 });
-

@@ -21,7 +21,8 @@ const SinRegistrarTabNavigator = () => {
           },
           headerTitleStyle: {
             color: '#00adb5', // Color del título (turquesa neón)
-            fontWeight: 'bold',
+            fontFamily: 'Livvic-Bold',
+            
           },
           headerTintColor: '#00adb5', // Color del ícono de "volver" o texto de back
         }}

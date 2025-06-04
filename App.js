@@ -3,16 +3,8 @@ import StackNavigator from './src/navigation/StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
-import { auth } from './src/firebase/config';
 import { SQLiteProvider } from 'expo-sqlite';
 
-
-// const [user, setUser] = useState(null);
-
-// useEffect(() => {
-//   const unsubscribe = onAuthStateChanged(auth, setUser);
-//   return unsubscribe;
-// }, []);
 
 export const initalizeDB = async (db) => {
   try {
