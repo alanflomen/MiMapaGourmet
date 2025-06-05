@@ -77,7 +77,7 @@ export default function ProfileScreen() {
         try {
             await db.runAsync(
                 'UPDATE usuario SET nombre = ?, email = ?, fotoBase64 = ? WHERE email = ?;',
-                nombre, emailActual.toLowerCase(), foto, emailOriginal
+                nombre, emailActual.toLowerCase(), foto, emailActual.toLowerCase()
             );
             // Actualiza los valores originales para deshabilitar el botón
             setNombreOriginal(nombre);

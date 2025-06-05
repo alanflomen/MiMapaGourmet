@@ -81,7 +81,7 @@ export default function StatsScreen() {
             </View>
             <View style={styles.box}>
                 <Text style={styles.subtitle}>Promedio de puntaje</Text>
-                <Text style={styles.promedio}>✩ {promedioPuntaje} ✩</Text>
+                <Text style={styles.promedio}>✩ {isNaN(promedioPuntaje) ? "-" : promedioPuntaje} ✩</Text>
                 <Text style={styles.subtitle}>Plato mejor puntuado: </Text>
                 <Text style={styles.promedio}>{nombrePlatoTop}</Text>
             </View>
