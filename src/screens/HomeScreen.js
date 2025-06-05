@@ -8,18 +8,18 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import AddPlatoScreen from './AddPlatoScreen';
 import EditPlatoScreen from './EditPlatoScreen';
 import { Ionicons } from '@expo/vector-icons';
-import { styles } from '../styles/style'; // Importa tus estilos desde un archivo separado
-import { loadFonts } from '../fonts/fonts'; // Asegúrate de tener una función para cargar las fuentes
+import { styles } from '../styles/style';
+import { loadFonts } from '../fonts/fonts';
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
-  // Traé la lista de platos desde Redux (ajustá el path y key según tu store)
-  const platos = useSelector((state) => state.platos.listaPlatos); //ver si copio como esta abajo el otro de array vacio
+
+  const platos = useSelector((state) => state.platos.listaPlatos);
   const cargando = useSelector((state) => state.platos.cargando);
   const categorias = useSelector((state) => state.categorias.listaCategorias || []);
   const [busqueda, setBusqueda] = useState('');
   const [soloFavoritos, setSoloFavoritos] = useState(false);
-  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]); // array de ids
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(
     categorias.map(cat => ({ label: cat.nombre, value: cat.id }))
@@ -36,7 +36,7 @@ export default function HomeScreen({ navigation }) {
     dispatch(cargarCategorias());
   }, [dispatch]);
 
-  useEffect(() => {
+  useEffect(() => { //cargo las fonts al iniciar
     const loadAllFonts = async () => {
       await loadFonts();
       setFontsLoaded(true);
@@ -44,8 +44,6 @@ export default function HomeScreen({ navigation }) {
 
     loadAllFonts();
   }, []);
-
-  
 
   useEffect(() => {
     setItems(categorias.map(cat => ({ label: cat.nombre, value: cat.id })));
@@ -75,9 +73,7 @@ export default function HomeScreen({ navigation }) {
       return fechaB.getTime() - fechaA.getTime(); // más nuevos primero
     });
 
-
-
-  // Renderizar cada plato como una card básica
+  // Renderizar cada plato como una card
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
@@ -115,7 +111,7 @@ export default function HomeScreen({ navigation }) {
             placeholderTextColor={'#aaaaaa'}
             value={busqueda}
             onChangeText={setBusqueda}
-            style={[styles.input, { paddingRight: 38 }]} // Dejá espacio para la X
+            style={[styles.input, { paddingRight: 38 }]} // Dejá espacio para la X (borrar búsqueda)
           />
           {busqueda.length > 0 && (
             <TouchableOpacity
@@ -135,10 +131,6 @@ export default function HomeScreen({ navigation }) {
           )}
         </View>
 
-
-        {/* Toggle favoritos */}
-
-
         {/* Dropdown de categorías */}
         <View
           style={{
@@ -146,7 +138,7 @@ export default function HomeScreen({ navigation }) {
             flexDirection: 'row',
             alignItems: 'center',
             marginVertical: 8,
-            gap: 2, // si usás React Native 0.71+
+            gap: 2,
           }}
         >
           <View style={{ flex: 1 }}>

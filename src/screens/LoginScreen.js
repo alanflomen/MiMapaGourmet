@@ -3,11 +3,9 @@ import { View, TextInput, TouchableOpacity, Text, Pressable, Image } from 'react
 import { useLoginMutation } from '../redux/authApi';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles/style';
-import { useDispatch } from 'react-redux';
 import { traducirErrorFirebase } from '../utils/traduccionesUtil';
 
 export default function LoginScreen() {
-  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [login, { isLoading, error }] = useLoginMutation();
@@ -15,10 +13,10 @@ export default function LoginScreen() {
   const [mensajeError, setMensajeError] = useState('');
   const passwordRef = useRef(null);
 
-  const handleLogin = async () => {
-    if (email && password) {
+  const handleLogin = async () => { //llamo al login
+    if (email && password) { //si existen email y password
       try {
-        const result = await login({ email, password });
+        const result = await login({ email, password }); //si es exitoso, se actualiza el auth, cambia el estado y muestra Main
         if (result.data) {
           setMensajeError('');
         } else {
@@ -36,7 +34,7 @@ export default function LoginScreen() {
     }
   };
 
-  const navigateARegister = async () => {
+  const navigateARegister = async () => { // Navega a la pantalla de registro
     navigation.navigate('Registrarse')
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Dimensions, SafeAreaView, Platform, StatusBar  } from 'react-native';
+import { View, Text, ScrollView, Dimensions, SafeAreaView, } from 'react-native';
 import { useSelector } from 'react-redux';
 import { PieChart } from 'react-native-chart-kit';
 import { styles } from '../styles/style';
@@ -54,7 +54,8 @@ export default function StatsScreen() {
         })
         .sort((a, b) => b.count - a.count);
 
-    // Filtrar solo platos válidos (puntaje entre 1 y 10)
+    // Filtrar solo platos válidos (puntaje entre 1 y 10) 
+    // (doble validacion para evitar errores) por ahi ya se puede obviar esto xq ya lo valide al agregar y editar el plato
     const platosValidos = platos.filter(
         p =>
             typeof p.puntaje === 'number' &&

@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Alert, Image, TouchableOpacity } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
 import * as ImagePicker from 'expo-image-picker';
-import { useSelector, useDispatch } from 'react-redux';
 import { styles } from '../styles/style';
 import { auth } from '../firebase/config';
 
 export default function ProfileScreen() {
-    const dispatch = useDispatch();
     const [foto, setFoto] = useState("");
     const [nombre, setNombre] = useState("");
     const emailActual = auth.currentUser?.email || '';
@@ -58,6 +56,8 @@ export default function ProfileScreen() {
             try {
                 const emailAuth = auth.currentUser?.email || '';
                 if (!emailAuth) return;
+                //busco al usuario en sqllite, esto lo hago asi porque las rubicas pedian usarlo
+                //y cargo la foto, nombre y mail localmente
                 const result = await db.getFirstAsync('SELECT * FROM usuario where email = ?', emailAuth);
                 if (result) {
                     setNombre(result.nombre || "");
@@ -102,7 +102,6 @@ export default function ProfileScreen() {
     };
     const CerrarSesion = async () => {
         try {
-            //dispatch(cambiarEmail(''));
             auth.signOut()
         }
         catch (error) {

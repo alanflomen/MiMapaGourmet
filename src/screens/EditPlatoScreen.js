@@ -15,7 +15,6 @@ export default function EditPlatoScreen({ plato, onClose }) {
     const categorias = useSelector(state => state.categorias.listaCategorias || []);
     const dispatch = useDispatch();
 
-    // Estados iniciales con datos del plato recibido
     const [foto, setFoto] = useState(plato.imagenBase64);
     const [titulo, setTitulo] = useState(plato.titulo || '');
     const [descripcion, setDescripcion] = useState(plato.descripcion || '');
@@ -36,7 +35,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitud},${longitud}&key=AIzaSyBIvpR_Lbz-a9RC__LXgIvR4ofZwfHGDbM`;
     const [direccion, setDireccion] = useState("");
 
-    // Referencias para saltar con el teclado
+    // Referencias para darle siguiente con el teclado
     const descripcionRef = useRef(null);
     const notasPersRef = useRef(null);
     const puntajeRef = useRef(null);
@@ -44,12 +43,12 @@ export default function EditPlatoScreen({ plato, onClose }) {
     const scrollViewRef = useRef(null);
 
     useEffect(() => {
-        async function fetchDireccion() {
+        async function fetchDireccion() { //cargo las coordenadas y la convierto a direccion texto
             const dir = await ObtenerDireccion(latitud, longitud);
             setDireccion(dir);
         }
         if (latitud && longitud) fetchDireccion();
-        // eslint-disable-next-line
+        
     }, [latitud, longitud]);
 
     const ObtenerDireccion = async () => {
@@ -125,7 +124,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
         if (!titulo.trim()) nuevosErrores.push('El título es obligatorio.');
         if (!foto) nuevosErrores.push('La foto es obligatoria.');
         if (categoriasSeleccionadas.length === 0) nuevosErrores.push('Debes elegir al menos una categoría.');
-        // Podés agregar más validaciones si querés
+       
         if (!haCambiado()) nuevosErrores.push('No hiciste ningún cambio.');
         return nuevosErrores;
     };
@@ -158,7 +157,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
                 imagenBase64: foto,
             };
             await actualizarPlato(platoEditado); // Update en Firestore
-            dispatch(editarPlato(platoEditado)); // Update local
+            dispatch(editarPlato(platoEditado)); // Update redux store
             setLoading(false);
             setShowExito(true);
         } catch (err) {

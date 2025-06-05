@@ -13,11 +13,10 @@ import { styles } from '../styles/style';
 import { auth } from '../firebase/config';
 
 export default function AddPlatoScreen({ onClose }) {
-    const categorias = useSelector(state => state.categorias.listaCategorias || []);
-    const usuarioId = auth.currentUser ? auth.currentUser.uid : null;
+    const categorias = useSelector(state => state.categorias.listaCategorias || []); //traigo las cateogorías del store
+    const usuarioId = auth.currentUser ? auth.currentUser.uid : null; //traigo el id del usuario logueado
     const dispatch = useDispatch();
 
-    // States de los campos
     const [foto, setFoto] = useState(null);
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
@@ -60,14 +59,14 @@ export default function AddPlatoScreen({ onClose }) {
         setItems(categorias.map(cat => ({ label: cat.nombre, value: cat.id })));
     }, [categorias]);
 
-    // Ubicación
+    // Permisos Ubicación
     const handleObtenerUbicacion = async () => {
         setLoading(true);
         let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            setLoading(false);
+        if (status !== 'granted') { //si no me deja acceder a la ubicacion, le pongo una ubicación por defecto y le explico
+            setLoading(false);      //total despues se puede actualizar
             Alert.alert('Permiso denegado', 'No se pudo obtener la ubicación. Se generó una de manera aleatorea. Por favor, vaya a configuración y active los permisos de ubicación.');
-            setLatitud(-34.6037);
+            setLatitud(-34.6037); // Obelisco, Buenos Aires
             setLongitud(-58.3816);
             return;
         }
@@ -77,7 +76,7 @@ export default function AddPlatoScreen({ onClose }) {
         setLoading(false);
     };
 
-    // Tomar/galería
+    // Camara/galería
     const pickImage = async (useCamera = false) => {
         let result;
         const hasPermission = await verifyPermissions();
@@ -119,7 +118,7 @@ export default function AddPlatoScreen({ onClose }) {
         if (!titulo.trim()) nuevosErrores.push('El título es obligatorio.');
         if (!foto) nuevosErrores.push('La foto es obligatoria.');
         if (categoriasSeleccionadas.length === 0) nuevosErrores.push('Debes elegir al menos una categoría.');
-        // Podés agregar más validaciones si querés (puntaje, precio, etc)
+        
         return nuevosErrores;
     };
 
@@ -128,14 +127,14 @@ export default function AddPlatoScreen({ onClose }) {
         const nuevosErrores = validarCampos();
         setErrores(nuevosErrores);
         if (nuevosErrores.length > 0 && scrollViewRef.current) {
-            // Scroll al final
+            // Scroll al final para mostrar los errores
             setTimeout(() => {
                 scrollViewRef.current.scrollToEnd({ animated: true });
             }, 50); // Un pequeño delay para que se rendericen los errores primero
             return;
         }
 
-        setLoading(true);
+        setLoading(true); //si pasaron las validaciones, genero el objeto plato y lo guardo
         try {
             const nuevoPlato = {
                 titulo,
@@ -151,8 +150,8 @@ export default function AddPlatoScreen({ onClose }) {
                 imagenBase64: foto,
                 usuarioId
             };
-            const platoGuardado = await CrearPlatoFirebase(nuevoPlato);
-            dispatch(agregarPlato(platoGuardado));
+            const platoGuardado = await CrearPlatoFirebase(nuevoPlato); // se guarda en Firebase
+            dispatch(agregarPlato(platoGuardado)); // se guarda en el store de Redux
             setLoading(false);
             setShowExito(true);
         } catch (err) {

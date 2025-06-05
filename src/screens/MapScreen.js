@@ -30,7 +30,11 @@ const MapScreen = () => {
                 (item.categoriasIds && item.categoriasIds.some(id => categoriasSeleccionadas.includes(id)));
             return coincideTexto && coincideFavorito && coincideCategoria;
         });
-
+        //armo la url, tiene 3 partes:
+        //1. el centro del mapa, que es el promedio de las coordenadas de los platos filtrados, asi queda centrado
+        //   si no hay platos, se usa un valor por defecto (Buenos Aires)
+        //2. el tamaño del mapa, que es el ancho y alto de la pantalla
+        //3. los marcadores, que son los platos filtrados con sus coordenadas
     const markersParams = platosFiltrados.map((p, idx) =>
         `markers=color:red%7Clabel:${String.fromCharCode(65 + (idx % 26))}%7C${p.latitud},${p.longitud}`
     ).join('&');
@@ -69,7 +73,7 @@ const MapScreen = () => {
                         placeholderTextColor={'#aaaa'}
                         value={busqueda}
                         onChangeText={setBusqueda}
-                        style={[styles.input, { paddingRight: 38 }]} // Dejá espacio para la X
+                        style={[styles.input, { paddingRight: 38 }]} // Dejá espacio para la X (borrar búsqueda)
                     />
                     {busqueda.length > 0 && (
                         <TouchableOpacity

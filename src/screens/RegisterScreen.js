@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, TextInput, } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { useSQLiteContext } from 'expo-sqlite';
 import { styles } from '../styles/style';
 import { useSignupMutation } from '../redux/authApi';
 import { traducirErrorFirebase } from '../utils/traduccionesUtil';
 
 const RegisterScreen = () => {
-    const dispatch = useDispatch();
     const db = useSQLiteContext();
     const [nombre, setNombre] = useState(null);
     const [email, setMail] = useState("");
@@ -27,10 +25,10 @@ const RegisterScreen = () => {
 
     const RegistrarUsuario = async () => {
         try {
-            const emailLowercase = email.toLowerCase();
-            const resultSignUp = await signup({ email: emailLowercase, password });
+            const emailLowercase = email.toLowerCase(); //guardo el email en minúscula
+            const resultSignUp = await signup({ email: emailLowercase, password }); //registro en firebaes
 
-            if (resultSignUp.data) {
+            if (resultSignUp.data) {    //guardo en sqlite el usuario recien creado solo si fue exitoso el registro en firebase
                 const result = await db.runAsync(
                     'INSERT INTO usuario (nombre, email) VALUES (?, ?)', nombre, email.toLowerCase());
             } else {
@@ -92,10 +90,8 @@ const RegisterScreen = () => {
             <TouchableOpacity
                 style={[
                     styles.botonRegistro,
-                    //validarCampos() && { opacity: 0.6 }
                 ]}
                 onPress={Registrarse}
-            //disabled={validarCampos()}
             >
                 <Text style={styles.botonRegistroText}>Registrarse</Text>
             </TouchableOpacity>
