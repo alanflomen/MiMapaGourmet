@@ -4,6 +4,7 @@ import { useLoginMutation } from '../redux/authApi';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles/style';
 import { traducirErrorFirebase } from '../utils/traduccionesUtil';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const [mensajeError, setMensajeError] = useState('');
   const passwordRef = useRef(null);
+  const [showPasswords, setShowPasswords] = useState(false);
 
   const handleLogin = async () => { //llamo al login
     if (email && password) { //si existen email y password
@@ -38,6 +40,19 @@ export default function LoginScreen() {
     navigation.navigate('Registrarse')
   };
 
+   // Estilo para el icono adentro del input, bien centrado
+    const btnVer = {
+        position: 'absolute',
+        right: 10,
+        top: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        paddingBottom: 15,
+        paddingRight: 5,
+    };
+
   return (
     <View style={styles.containerLogin}>
       <Image
@@ -56,17 +71,30 @@ export default function LoginScreen() {
         returnKeyType="next"
         onSubmitEditing={() => passwordRef.current.focus()}
       />
-      <TextInput
-        placeholder="Contraseña"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-        style={styles.inputLogin}
-        placeholderTextColor="#aaaaaa"
-        ref={passwordRef}
-        returnKeyType="done"
-        onSubmitEditing={handleLogin}
-      />
+      <View style={{ position: 'relative', marginBottom: 8 }}>
+        <TextInput
+          placeholder="Contraseña"
+          secureTextEntry={!showPasswords}
+          value={password}
+          onChangeText={setPassword}
+          style={styles.inputLogin}
+          placeholderTextColor="#aaaaaa"
+          ref={passwordRef}
+          returnKeyType="done"
+          onSubmitEditing={handleLogin}
+        />
+        <TouchableOpacity
+          style={btnVer}
+          onPress={() => setShowPasswords(x => !x)}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons
+            name={showPasswords ? "eye-off-outline" : "eye-outline"}
+            size={24}
+            color={'#aaaaaa'}
+          />
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
         style={styles.botonLogin}
         onPress={handleLogin}
