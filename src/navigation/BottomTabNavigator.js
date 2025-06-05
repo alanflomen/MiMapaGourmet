@@ -39,7 +39,7 @@ export default function BottomTabNavigator() {
             style={{
               fontSize: 13,
               marginBottom: 2,
-              letterSpacing: 0.4,
+              letterSpacing: 0.2,
               fontFamily: focused ? 'Livvic-Bold' : 'Livvic-Regular',
               color: focused ? '#00adb5' : '#aaaaaa',
             }}

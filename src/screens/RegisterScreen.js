@@ -1,53 +1,65 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, TextInput, } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useSQLiteContext } from 'expo-sqlite';
 import { styles } from '../styles/style';
 import { useSignupMutation } from '../redux/authApi';
 import { traducirErrorFirebase } from '../utils/traduccionesUtil';
 
 const RegisterScreen = () => {
+    const dispatch = useDispatch();
     const db = useSQLiteContext();
     const [nombre, setNombre] = useState(null);
     const [email, setMail] = useState("");
     const [password, setPassword] = useState("");
+    const [password2, setPassword2] = useState("");
     const [signup, { isLoading, error }] = useSignupMutation();
     const [mensajeError, setMensajeError] = useState('');
     const passwordRef = useRef(null);
+    const password2Ref = useRef(null);
     const emailRef = useRef(null);
 
     const Registrarse = async () => {
-        if (validarCampos()) {
-            setMensajeError('Por favor, complete todos los campos.');
+        const errorMsg = validarCampos();
+        if (errorMsg) {
+            setMensajeError(errorMsg);
             return;
         }
+        setMensajeError('');
         RegistrarUsuario(); // Registra el usuario
     };
 
     const RegistrarUsuario = async () => {
         try {
-            const emailLowercase = email.toLowerCase(); //guardo el email en minúscula
-            const resultSignUp = await signup({ email: emailLowercase, password }); //registro en firebaes
+            const emailLowercase = email.toLowerCase();
+            const resultSignUp = await signup({ email: emailLowercase, password });
 
-            if (resultSignUp.data) {    //guardo en sqlite el usuario recien creado solo si fue exitoso el registro en firebase
-                const result = await db.runAsync(
-                    'INSERT INTO usuario (nombre, email) VALUES (?, ?)', nombre, email.toLowerCase());
+            if (resultSignUp.data) {
+                await db.runAsync(
+                    'INSERT INTO usuario (nombre, email) VALUES (?, ?)', nombre, emailLowercase);
             } else {
                 // Si hubo error, lo mostramos
-                console.log(resultSignUp.error);
                 const mensaje = traducirErrorFirebase(resultSignUp.error?.data?.message || resultSignUp.error?.error || resultSignUp.error?.message || 'Error desconocido');
                 setMensajeError(mensaje);
             }
-
         }
         catch (error) {
-            console.error("Error al registrar el usuario:", error.message);
             const mensaje = traducirErrorFirebase(error.message || 'Error desconocido');
             setMensajeError(mensaje);
         }
     };
+
+    // Devuelve string con el mensaje de error o '' si todo OK
     const validarCampos = () => {
-        return !nombre || !password || !email;
+        if (!nombre || !password || !email || !password2) {
+            return 'Por favor, complete todos los campos.';
+        }
+        if (password !== password2) {
+            return 'Las contraseñas no coinciden.';
+        }
+        return '';
     };
+
     return (
         <View style={styles.containerRegister}>
             <Text style={styles.title}>
@@ -75,6 +87,7 @@ const RegisterScreen = () => {
                 returnKeyType="next"
                 onSubmitEditing={() => passwordRef.current.focus()}
             />
+
             <TextInput
                 placeholder="Contraseña"
                 secureTextEntry
@@ -83,14 +96,24 @@ const RegisterScreen = () => {
                 style={styles.inputRegister}
                 placeholderTextColor="#aaaaaa"
                 ref={passwordRef}
+                returnKeyType="next"
+                onSubmitEditing={() => password2Ref.current.focus()}
+            />
+
+            <TextInput
+                placeholder="Repetir contraseña"
+                secureTextEntry
+                value={password2}
+                onChangeText={setPassword2}
+                style={styles.inputRegister}
+                placeholderTextColor="#aaaaaa"
+                ref={password2Ref}
                 returnKeyType="go"
                 onSubmitEditing={Registrarse}
             />
 
             <TouchableOpacity
-                style={[
-                    styles.botonRegistro,
-                ]}
+                style={styles.botonRegistro}
                 onPress={Registrarse}
             >
                 <Text style={styles.botonRegistroText}>Registrarse</Text>
