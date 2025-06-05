@@ -18,7 +18,7 @@ export default function BottomTabNavigator() {
 
           if (route.name === 'Home') {
             iconName = 'fast-food-outline';
-          } else if (route.name === 'Mapas') {
+          } else if (route.name === 'Mapa') {
             iconName = 'map';
           } else if (route.name === 'Stats') {
             iconName = 'stats-chart';
@@ -39,14 +39,18 @@ export default function BottomTabNavigator() {
             style={{
               fontSize: 13,
               marginBottom: 2,
-              letterSpacing: 0.2,
+              letterSpacing: 0.1,
               fontFamily: focused ? 'Livvic-Bold' : 'Livvic-Regular',
               color: focused ? '#00adb5' : '#aaaaaa',
+              minWidth: 38, 
+              textAlign: 'center',
             }}
+            allowFontScaling={false}
           >
             {route.name}
           </Text>
-        ),
+        )
+        ,
         tabBarStyle: {
           backgroundColor: '#393e46',
           borderTopWidth: 0,
@@ -62,7 +66,7 @@ export default function BottomTabNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Mapas" component={MapScreen} />
+      <Tab.Screen name="Mapa" component={MapScreen} />
       <Tab.Screen name="Stats" component={StatsScreen} />
       <Tab.Screen name="Perfil" component={ProfileScreen} />
     </Tab.Navigator>

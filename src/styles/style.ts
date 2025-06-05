@@ -817,7 +817,7 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
     titleLogin: {
-        fontSize: 28,
+        fontSize: 27,
         color: '#00adb5',
         marginBottom: 20,
         textAlign: 'center',
@@ -860,8 +860,7 @@ export const styles = StyleSheet.create({
     },
     botonLoginText: {
         color: '#eeeeee',
-
-        fontSize: 18,
+        fontSize: 19,
         letterSpacing: 1.1,
         fontFamily: 'Livvic-Regular',
     },

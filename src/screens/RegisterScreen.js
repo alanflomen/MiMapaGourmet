@@ -88,7 +88,7 @@ const RegisterScreen = () => {
             />
 
             <TextInput
-                placeholder="Email"
+                placeholder="E-mail"
                 value={email}
                 onChangeText={setMail}
                 style={styles.inputRegister}
@@ -152,11 +152,15 @@ const RegisterScreen = () => {
             </View>
 
             <TouchableOpacity
-                style={styles.botonRegistro}
+                style={[styles.botonRegistro, isLoading && { opacity: 0.6 }]}
                 onPress={Registrarse}
+                disabled={isLoading}
             >
-                <Text style={styles.botonRegistroText}>Registrarse</Text>
+                <Text style={styles.botonRegistroText}>
+                    {isLoading ? "Registrando..." : "Registrarse"}
+                </Text>
             </TouchableOpacity>
+
             {mensajeError !== '' && <Text style={styles.error}>{mensajeError}</Text>}
         </View>
     );

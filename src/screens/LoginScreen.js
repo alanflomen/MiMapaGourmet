@@ -61,7 +61,7 @@ export default function LoginScreen() {
         style={styles.imageLogin}></Image>
       <Text style={styles.titleLogin}>Iniciar sesión</Text>
       <TextInput
-        placeholder="Email"
+        placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
         style={styles.inputLogin}
