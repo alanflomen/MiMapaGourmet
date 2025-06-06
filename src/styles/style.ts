@@ -159,11 +159,12 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         shadowColor: '#00adb5',
-        shadowOpacity: 0.12,
+        shadowOpacity: 0.2,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 3,
         elevation: 2,
         fontFamily: 'Livvic-Regular',
+
     },
     fab: {
         position: 'absolute',
@@ -189,7 +190,7 @@ export const styles = StyleSheet.create({
         textShadowOffset: { width: 3, height: 3 },
         textShadowRadius: 4,
         fontFamily: 'Livvic-Bold',
-        textAlign: 'center', 
+        textAlign: 'center',
         paddingBottom: 12,
 
     },
@@ -222,6 +223,13 @@ export const styles = StyleSheet.create({
         fontSize: 15,
         marginLeft: 4,
         fontFamily: 'Livvic-Regular',
+    },
+    favoritosTextLabel: {
+        color: '#aaaaaa',
+        fontSize: 14,
+        marginLeft: 4,
+        fontFamily: 'Livvic-Regular',
+        textAlign: 'center',
     },
     dropdownLabel: {
         color: '#eeeeee',
@@ -577,7 +585,25 @@ export const styles = StyleSheet.create({
         elevation: 2,
         flex: 1,
         fontFamily: 'Livvic-Regular',
+        minWidth: 70, // <--- AGREGADO
     },
+    botonGuardar: {
+        backgroundColor: '#00adb5',
+        paddingVertical: 13,
+        paddingHorizontal: 18,
+        borderRadius: 26,
+        marginHorizontal: 4,
+        alignItems: 'center',
+        shadowColor: '#00adb5',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.17,
+        shadowRadius: 8,
+        elevation: 5,
+        flex: 1,
+        fontFamily: 'Livvic-Regular',
+        minWidth: 70,
+    },
+
     botonCancelarModal: {
         backgroundColor: '#eeeeee',
         paddingVertical: 13,
@@ -642,6 +668,7 @@ export const styles = StyleSheet.create({
         elevation: 3,
         flex: 1,
         fontFamily: 'Livvic-Regular',
+        minWidth: 70,
     },
     botonEliminarText: {
         color: '#fff',
@@ -663,6 +690,7 @@ export const styles = StyleSheet.create({
         elevation: 5,
         flex: 1,
         fontFamily: 'Livvic-Regular',
+        minWidth: 70,
     },
     botonGuardarText: {
         color: '#eeeeee',

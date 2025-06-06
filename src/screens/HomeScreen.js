@@ -107,7 +107,7 @@ export default function HomeScreen({ navigation }) {
         {/* Input de búsqueda */}
         <View style={{ position: 'relative', width: '100%', marginBottom: 8 }}>
           <TextInput
-            placeholder="Buscar por nombre o descripción..."
+            placeholder="Buscar..."
             placeholderTextColor={'#aaaaaa'}
             value={busqueda}
             onChangeText={setBusqueda}
@@ -163,20 +163,44 @@ export default function HomeScreen({ navigation }) {
               searchable={true}
               listMode="MODAL"
               badgeColors={["#2066e0"]}
-              dropDownDirection="AUTO"
+              dropDownDirection="BOTTOM"
               searchPlaceholder="Escriba una categoría..."
               zIndex={open ? 5000 : 1}
               zIndexInverse={1}
+              translation={{
+                NOTHING_TO_SHOW: "No hay categorías disponibles"
+              }}
             />
           </View>
           {/* Favoritos: label y switch juntos */}
-          <Pressable style={soloFavoritos ? styles.buttonSoloFavApretado : styles.buttonSoloFavSinApretar} onPress={!soloFavoritos ? () => setSoloFavoritos(true) : () => setSoloFavoritos(false)}>
-            <Text style={styles.dropdownPlaceholder}>Solo favoritos</Text>
-          </Pressable>
-          <Switch
-            value={soloFavoritos}
-            onValueChange={setSoloFavoritos}
-          />
+          <View style={{ flexDirection: 'row', alignItems: 'center', minWidth: 110, }}>
+            <Pressable
+              onPress={() => setSoloFavoritos(!soloFavoritos)}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',   // Esto asegura que todo quede alineado al centro verticalmente
+                minWidth: 110,
+                paddingVertical: 2,
+                // Opcional, para que no quede apretado
+              }}
+            >
+              <Text
+                style={[
+                  styles.favoritosTextLabel,
+                  { flexShrink: 1, flexGrow: 0, marginRight: 6, textAlignVertical: 'center' }
+                ]}
+              >
+                Solo {"\n"}favoritos
+              </Text>
+              <Switch
+                value={soloFavoritos}
+                onValueChange={setSoloFavoritos}
+                style={{ marginLeft: 2 }}
+              />
+            </Pressable>
+
+          </View>
+
         </View>
 
 
@@ -188,13 +212,13 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.vacio}>¡Todavía no agregaste ningún plato!</Text>
       ) : (
         platosFiltrados.length === 0 ?
-        <Text style={styles.vacio}>¡No hay resultados!</Text>
-         : <FlatList
-          data={platosFiltrados}
-          keyExtractor={item => item.id?.toString()}
-          renderItem={renderItem}
-          contentContainerStyle={{ paddingBottom: 80 }}
-        />
+          <Text style={styles.vacio}>¡No hay resultados!</Text>
+          : <FlatList
+            data={platosFiltrados}
+            keyExtractor={item => item.id?.toString()}
+            renderItem={renderItem}
+            contentContainerStyle={{ paddingBottom: 80 }}
+          />
       )}
 
 

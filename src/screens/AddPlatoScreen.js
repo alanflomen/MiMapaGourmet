@@ -83,7 +83,7 @@ export default function AddPlatoScreen({ onClose }) {
         if (!hasPermission) return;
         if (useCamera) {
             result = await ImagePicker.launchCameraAsync({
-                base64: true, quality: 0.1, allowsEditing: true,
+                base64: true, quality: 0.1, allowsEditing: true, a
             });
         } else {
             result = await ImagePicker.launchImageLibraryAsync({
@@ -118,7 +118,7 @@ export default function AddPlatoScreen({ onClose }) {
         if (!titulo.trim()) nuevosErrores.push('El título es obligatorio.');
         if (!foto) nuevosErrores.push('La foto es obligatoria.');
         if (categoriasSeleccionadas.length === 0) nuevosErrores.push('Debes elegir al menos una categoría.');
-        
+
         return nuevosErrores;
     };
 
@@ -285,8 +285,11 @@ export default function AddPlatoScreen({ onClose }) {
                     selectedItemLabelStyle={styles.dropdownSelectedLabel}
                     listItemContainerStyle={styles.dropdownListItem}
                     arrowIconStyle={styles.dropdownArrow}
-                    badgeColors={["#2066e0"]}
-                    dropDownDirection="AUTO"
+                    badgeColors={["#00adb5"]}
+                    dropDownDirection="TOP"
+                    translation={{
+                        NOTHING_TO_SHOW: "No hay categorías disponibles"
+                    }}
                 />
 
                 <View style={styles.favoritoRow}>

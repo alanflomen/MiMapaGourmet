@@ -48,7 +48,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
             setDireccion(dir);
         }
         if (latitud && longitud) fetchDireccion();
-        
+
     }, [latitud, longitud]);
 
     const ObtenerDireccion = async () => {
@@ -77,7 +77,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
         let result;
         if (useCamera) {
             result = await ImagePicker.launchCameraAsync({
-                base64: true, quality: 0.7,
+                base64: true, quality: 0.7, cameraType: 'back',
             });
         } else {
             result = await ImagePicker.launchImageLibraryAsync({
@@ -124,7 +124,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
         if (!titulo.trim()) nuevosErrores.push('El título es obligatorio.');
         if (!foto) nuevosErrores.push('La foto es obligatoria.');
         if (categoriasSeleccionadas.length === 0) nuevosErrores.push('Debes elegir al menos una categoría.');
-       
+
         if (!haCambiado()) nuevosErrores.push('No hiciste ningún cambio.');
         return nuevosErrores;
     };
@@ -205,7 +205,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
                             />
                         </TouchableOpacity>
                     ) : (
-                        <Text style={{ color: '#999',textAlign: 'center', fontFamily: 'Livvic-Regular', }}>Sin foto{"\n"}(obligatoria)</Text>
+                        <Text style={{ color: '#999', textAlign: 'center', fontFamily: 'Livvic-Regular', }}>Sin foto{"\n"}(obligatoria)</Text>
                     )}
                 </View>
                 <View style={styles.rowBotonesEditPlato}>
@@ -311,8 +311,11 @@ export default function EditPlatoScreen({ plato, onClose }) {
                     selectedItemLabelStyle={styles.dropdownSelectedLabel}
                     listItemContainerStyle={styles.dropdownListItem}
                     arrowIconStyle={styles.dropdownArrow}
-                    badgeColors={["#2066e0"]}
-                    dropDownDirection="AUTO"
+                    badgeColors={["#00adb5"]}
+                    dropDownDirection="TOP"
+                    translation={{
+                        NOTHING_TO_SHOW: "No hay categorías disponibles"
+                    }}
                 />
 
                 <View style={styles.favoritoRow}>
@@ -347,7 +350,7 @@ export default function EditPlatoScreen({ plato, onClose }) {
                 {errores.length > 0 && (
                     <View style={{ marginTop: 12, marginBottom: 4, alignSelf: 'center' }}>
                         {errores.map((err, i) => (
-                            <Text key={i} style={{ color: 'red', marginBottom: 2, fontFamily: 'Livvic-Bold'}}>{err}</Text>
+                            <Text key={i} style={{ color: 'red', marginBottom: 2, fontFamily: 'Livvic-Bold' }}>{err}</Text>
                         ))}
                     </View>
                 )}
@@ -430,16 +433,16 @@ export default function EditPlatoScreen({ plato, onClose }) {
             {/* BOTONES */}
             <View style={styles.accionesRowEditarPlato}>
                 <TouchableOpacity style={styles.botonCancelar} onPress={onClose}>
-                    <Text style={styles.botonCancelarText}>Cancelar</Text>
+                    <Text style={styles.botonCancelarText} numberOfLines={1} ellipsizeMode="tail">Cancelar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.botonEliminar} onPress={mostrarConfirmacionEliminar}>
-                    <Text style={styles.botonEliminarText}>Eliminar</Text>
+                    <Text style={styles.botonEliminarText} numberOfLines={1} ellipsizeMode="tail">Eliminar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.botonGuardar}
                     onPress={handleGuardar}
                 >
-                    <Text style={styles.botonGuardarText}>Guardar</Text>
+                    <Text style={styles.botonGuardarText} numberOfLines={1} ellipsizeMode="tail">Guardar</Text>
                 </TouchableOpacity>
             </View>
         </View>

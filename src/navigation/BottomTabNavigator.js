@@ -42,10 +42,14 @@ export default function BottomTabNavigator() {
               letterSpacing: 0.1,
               fontFamily: focused ? 'Livvic-Bold' : 'Livvic-Regular',
               color: focused ? '#00adb5' : '#aaaaaa',
-              minWidth: 38, 
+              minWidth: 38,
               textAlign: 'center',
+              width: 50, // <--- ancho fijo, ajustá según el tab más largo
+              includeFontPadding: false, // extra
             }}
             allowFontScaling={false}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           >
             {route.name}
           </Text>

@@ -30,11 +30,11 @@ const MapScreen = () => {
                 (item.categoriasIds && item.categoriasIds.some(id => categoriasSeleccionadas.includes(id)));
             return coincideTexto && coincideFavorito && coincideCategoria;
         });
-        //armo la url, tiene 3 partes:
-        //1. el centro del mapa, que es el promedio de las coordenadas de los platos filtrados, asi queda centrado
-        //   si no hay platos, se usa un valor por defecto (Buenos Aires)
-        //2. el tamaño del mapa, que es el ancho y alto de la pantalla
-        //3. los marcadores, que son los platos filtrados con sus coordenadas
+    //armo la url, tiene 3 partes:
+    //1. el centro del mapa, que es el promedio de las coordenadas de los platos filtrados, asi queda centrado
+    //   si no hay platos, se usa un valor por defecto (Buenos Aires)
+    //2. el tamaño del mapa, que es el ancho y alto de la pantalla
+    //3. los marcadores, que son los platos filtrados con sus coordenadas
     const markersParams = platosFiltrados.map((p, idx) =>
         `markers=color:red%7Clabel:${String.fromCharCode(65 + (idx % 26))}%7C${p.latitud},${p.longitud}`
     ).join('&');
@@ -69,7 +69,7 @@ const MapScreen = () => {
             <View style={{ zIndex: open ? 5000 : 1, paddingHorizontal: 8, marginBottom: 8 }}>
                 <View style={{ position: 'relative', width: '100%', marginBottom: 8 }}>
                     <TextInput
-                        placeholder="Buscar por nombre o descripción..."
+                        placeholder="Buscar..."
                         placeholderTextColor={'#aaaa'}
                         value={busqueda}
                         onChangeText={setBusqueda}
@@ -109,7 +109,7 @@ const MapScreen = () => {
                             searchable={true}
                             listMode="MODAL"
                             badgeColors={["#2066e0"]}
-                            dropDownDirection="AUTO"
+                            dropDownDirection="BOTTOM"
                             searchPlaceholder="Escriba una categoría..."
                             zIndex={open ? 9999 : 1}
                             zIndexInverse={1}
@@ -120,10 +120,13 @@ const MapScreen = () => {
                             selectedItemLabelStyle={styles.dropdownSelectedLabel}
                             listItemContainerStyle={styles.dropdownListItem}
                             arrowIconStyle={styles.dropdownArrow}
+                            translation={{
+                                NOTHING_TO_SHOW: "No hay categorías disponibles"
+                            }}
                         />
                     </View>
                     <Pressable style={styles.button} onPress={!soloFavoritos ? () => setSoloFavoritos(true) : () => setSoloFavoritos(false)}>
-                        <Text style={styles.dropdownPlaceholder}>Solo favoritos</Text>
+                        <Text style={styles.favoritosTextLabel}>Solo {"\n"}favoritos</Text>
                     </Pressable>
                     <Switch value={soloFavoritos} onValueChange={setSoloFavoritos} />
                 </View>
