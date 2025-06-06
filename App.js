@@ -1,10 +1,10 @@
-import React from 'react';
+import React , { useEffect}from 'react';
 import StackNavigator from './src/navigation/StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import { SQLiteProvider } from 'expo-sqlite';
-
+import * as NavigationBar from 'expo-navigation-bar';
 
 export const initalizeDB = async (db) => {
   try {
@@ -15,6 +15,10 @@ export const initalizeDB = async (db) => {
   }
 };
 export default function App() {
+  useEffect(() => {
+  NavigationBar.setVisibilityAsync("hidden");
+  // Para mostrar de nuevo: NavigationBar.setVisibilityAsync("visible");
+}, []);
   return (
     <SQLiteProvider databaseName="miMapaGourmet" onInit={initalizeDB}>
       <Provider store={store}>
