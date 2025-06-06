@@ -232,7 +232,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     dropdownLabel: {
-        color: '#eeeeee',
+        color: '#aaaaaa',
         fontSize: 15,
         fontWeight: '500',
         fontFamily: 'Livvic-Regular',

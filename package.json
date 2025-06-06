@@ -28,8 +28,7 @@
     "react-native-root-toast": "^4.0.1",
     "react-native-svg": "15.11.2",
     "react-redux": "^9.2.0",
-    "redux": "^5.0.1",
-    "expo-navigation-bar": "~4.2.5"
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

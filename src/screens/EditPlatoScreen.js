@@ -77,11 +77,11 @@ export default function EditPlatoScreen({ plato, onClose }) {
         let result;
         if (useCamera) {
             result = await ImagePicker.launchCameraAsync({
-                base64: true, quality: 0.7, cameraType: 'back',
+                base64: true, quality: 0.1, cameraType: 'back',
             });
         } else {
             result = await ImagePicker.launchImageLibraryAsync({
-                base64: true, quality: 0.7,
+                base64: true, quality: 0.1,
             });
         }
         if (!result.canceled && result.assets && result.assets.length) {
@@ -316,6 +316,13 @@ export default function EditPlatoScreen({ plato, onClose }) {
                     translation={{
                         NOTHING_TO_SHOW: "No hay categorías disponibles"
                     }}
+                    listItemLabelStyle={{
+                        color: '#aaaaaa', // El color que quieras
+                        fontSize: 15,
+                        fontWeight: '500',
+                        fontFamily: 'Livvic-Regular',
+                    }}
+                    
                 />
 
                 <View style={styles.favoritoRow}>

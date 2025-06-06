@@ -170,6 +170,17 @@ export default function HomeScreen({ navigation }) {
               translation={{
                 NOTHING_TO_SHOW: "No hay categorías disponibles"
               }}
+              listItemLabelStyle={{
+                color: '#aaaaaa', // El color que quieras
+                fontSize: 15,
+                fontWeight: '500',
+                fontFamily: 'Livvic-Regular',
+              }}
+              tickIconStyle={{
+                tintColor: "#00adb5", // el color que quieras para el check
+                width: 22,
+                height: 22,
+              }}
             />
           </View>
           {/* Favoritos: label y switch juntos */}
@@ -233,7 +244,7 @@ export default function HomeScreen({ navigation }) {
         visible={modalAddPlatoVisible}
         animationType="slide"
         onRequestClose={() => setModalAddPlatoVisible(false)}
-        presentationStyle="pageSheet"
+        //presentationStyle="pageSheet"
       >
         <AddPlatoScreen onClose={() => setModalAddPlatoVisible(false)} />
       </Modal>
