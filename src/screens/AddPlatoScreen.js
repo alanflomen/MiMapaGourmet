@@ -83,7 +83,7 @@ export default function AddPlatoScreen({ onClose }) {
         if (!hasPermission) return;
         if (useCamera) {
             result = await ImagePicker.launchCameraAsync({
-                base64: true, quality: 0.1, allowsEditing: true, a
+                base64: true, quality: 0.1, allowsEditing: true,
             });
         } else {
             result = await ImagePicker.launchImageLibraryAsync({
